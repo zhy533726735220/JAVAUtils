@@ -69,7 +69,7 @@ public class ExcelReadUtils {
 
         try {
             is = new FileInputStream(pathName);
-            if(pathName.endsWith(".xlsx")) {
+            if(pathName.endsWith(".xls")) {
                 book = new HSSFWorkbook(is);
             } else {
                 book = new XSSFWorkbook(is);
