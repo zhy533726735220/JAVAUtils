@@ -1,0 +1,13 @@
+/.idea/
+
+/target
+
+/logs
+/src/test/
+
+/JAVAUtils.iml
+
+/src/main/resources/log4j.properties
+/src/main/resources/database.properties
+
+*.class
