@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.zhy.AllFileldIsNull.AllFieldIsNull;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
@@ -177,12 +178,14 @@ public class ExcelReadUtils {
             Row row = sheet.getRow(i);
             int cellNum = row.getPhysicalNumberOfCells();
             T instance = (T) clazz.newInstance();
-            for (int columns = 0; columns < cellNum; columns++) {
+            for (int columns = 0; columns <= cellNum; columns++) {
                 Cell cell = row.getCell(columns);
                 // 判断单元格的数据类型,转换成String
                 String cellValue = loadCellType(cell);
                 // 获取单元格的值
                 if (cellValue != null) {
+                    // 去空白字符
+                    cellValue = cellValue.replaceAll("\\s*", "");
                     String key = header.get(columns);
                     // 加载实际值
                     if (this.mapper.containsKey(key)) {
@@ -190,7 +193,10 @@ public class ExcelReadUtils {
                     }
                 }
             }
-            result.add(instance);
+            // 去掉类中所有属性为null的对象
+            if (!AllFieldIsNull.allFieldIsNull(instance)) {
+                result.add(instance);
+            }
         }
         return result;
     }
